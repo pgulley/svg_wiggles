@@ -268,3 +268,5 @@ SVG.on(document, 'DOMContentLoaded', function() {
 // we also want to make the motion a bit more continuous? so not wholly random probably- but random deltas
 //    so each parameter should have a 'cycle' 
 // also some constrained vertical motion on the inflection points, probably
+
+//LOVE the effect of switching to longer duration cycles. 
