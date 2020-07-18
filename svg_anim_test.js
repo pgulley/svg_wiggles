@@ -156,10 +156,10 @@ function random_choice(items){
 
 function draw_FirstWiggle(){
 	var draw = SVG().addTo('body').size(window.innerWidth,300)
-	var path = draw.path("M 100 100 Q 150 50 200 150 C 227 268 363 300 300 300 ")
+	var path = draw.path("M 100 100 Q 150 50 200 150 C 227 268 363 300 200 200 ")
 	path.fill('none')
 	path.stroke({ color: 'white', width: 4, linecap: 'round', linejoin: 'round' })
-  	path.animate(2000).plot("M 100 100 Q 150 50 200 300 C 227 158 263 100 300 300 ").loop(25, true)
+  	path.animate(2000).plot("M 100 100 Q 150 50 200 300 C 227 158 263 100 200 200 ").loop(true, true)
 }
 
 function draw_SinWiggle(){
@@ -167,7 +167,7 @@ function draw_SinWiggle(){
 	var path = draw.path(getSinPath({curves:20, height:50, controlSep:50}))
 	path.fill('none')
 	path.stroke({ color: 'white', width: 4, linecap: 'round', linejoin: 'round' })
-  	path.animate(2000).plot(getSinPath({curves:20, height:80, controlSep:30})).loop(25, true)
+  	path.animate(2000).plot(getSinPath({curves:20, height:80, controlSep:30})).loop(true, true)
 }
 
 function draw_simpleWiggle(fraction, its, distance){
@@ -230,7 +230,7 @@ function draw_randWiggles_multiframe(its, distance, layers, colors, durations){
 
 
 SVG.on(document, 'DOMContentLoaded', function() {
-	var colors = ['#000000aa','#ff0000aa','#ffffffaa','#00ccffaa','#ff0066aa','#000066aa']
+	var colors = ['#000000aa','#ff0000aa','#ffffffaa','#00ccffaa','#ff0066aa','#000066aa',"#aa0aa8aa", "#60700faa"]
 	var durations = [3000,4000,5000,6000,3500,4050,4800]
 	var long_durs = [10000,20000,15000,25000,50000,100000]
 
