@@ -17,6 +17,7 @@ svg{
 .buttons{
 	margin-top:10px;
 	margin-left:10px;
+	margin-bottom:20px;
 }
 
 text{
@@ -25,4 +26,12 @@ text{
 
 .lorem{
 	font-size:1.5em;	
+	width:80%;
+}
+
+.log{
+	font-style:italic;
+	display:inline-block;
+	margin-left:10px;
+
 }

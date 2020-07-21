@@ -1,7 +1,14 @@
+//loom wiggle
+//the version of the wiggler to export into loom
+//the manager add_wiggle function should take a user object
+// that user object will define color, beads, size and durations
+// it will also have a unique id.
+// the manager will store each wiggle using the id as an index.
+
 function vertwiggle(iterations, color, draw, durations, bead){
 	this.draw = draw
 	this.color = color
-	this.bead = random_beads(10)	
+	this.bead = bead	
 	this.width = draw.width()
 	this.height = draw.height()
 
@@ -147,23 +154,19 @@ function random_beads(length_ceiling){
 
 //// top level manager. 
 // final version will need to be able to index the wigglers by an id, and directly edit their attributes. 
-function wiggle_manager(colors, durations, iterations){
+function wiggle_manager(){
 	this.draw = SVG().addTo('body').size(window.innerWidth/7, window.innerHeight)
-	this.wiggles = []
+	this.wiggles = {}
 
-	//roughly speaking, these define the character of the wigglers.
-	this.colors = colors
-	this.durations = durations
-	this.iterations = iterations
-
-	this.add_wiggle = function(){
-		this.wiggles.push(new vertwiggle(random_choice(this.iterations), random_choice(this.colors), this.draw, this.durations))
+	this.add_wiggle = function(user_id, size, color, durations){
+		this.wiggles[user_id] = new vertwiggle(size, color, durations, this.durations)
 	}
 
-	this.remove_wiggle = function(){
-		wig = this.wiggles.shift()
+	this.remove_wiggle = function(user_id){
+		wig = this.wiggles[user_id]
 		wig.fadeout()
 		setTimeout(this.cleanup,6000,wig)
+		delete this.wiggles[user_id]
 	}
 
 	//make sure they don't leave behind too much junk. 
@@ -176,43 +179,3 @@ function wiggle_manager(colors, durations, iterations){
 		delete wig 
 	}
 }
-
-
-SVG.on(document, 'DOMContentLoaded', function() {
-	jQuery.Color.hook( "stroke" ) //So we can animate the svg stroke color via jquery
-
-	//"character" settings
-	var colors = ['#000000aa','#ff0000aa','#ffffffaa','#00ccffaa','#ff0066aa','#000066aa',"#aa0aa8aa", "#60700faa"]
-	var durations = [3000,4000,5000,6000,3500,4050,4800,10000,20000,15000,25000,50000,100000]
-	var iterations = [4,5,6,7,8,9,10]
-	
-	//setup the manager
-	manager = new wiggle_manager(colors, durations, iterations)
-	manager.add_wiggle()
-	manager.add_wiggle()
-	manager.add_wiggle()
-	manager.add_wiggle()
-	manager.add_wiggle()
-	setInterval(function(){
-			manager.remove_wiggle()
-			manager.add_wiggle()
-	
-	},5000)	
-
-
-	//ui 
-	$("#add").click(function(){
-		console.log("add")
-		manager.add_wiggle()
-	})
-
-	$("#remove").click(function(){
-		manager.remove_wiggle()
-	})
-
-	setInterval(function(){
-		$("#num_wigs").text(manager.wiggles.length)
-	},100)
-
-})
-
