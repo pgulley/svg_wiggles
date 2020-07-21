@@ -1,6 +1,10 @@
-function vertwiggle(iterations, color, draw, durations){
+function vertwiggle(iterations, color, draw, durations, bead){
 	this.draw = draw
 	this.color = color
+
+	
+	this.bead = bead	
+
 
 	this.width = draw.width()
 	this.height = draw.height()
@@ -88,10 +92,17 @@ function vertwiggle(iterations, color, draw, durations){
 			.animate(random_choice(durations)).ease("<>").plot(this.next())
 	this.tl.on("finished", function(){this.reverse().play()})
 
+	if(this.bead != undefined){
+		this.textpath = this.path.text(`${" ".repeat(10+Math.floor(Math.random()*200))}${bead}`)
+		this.textpath.leading(".35em").font({"size":15}).fill(this.color).attr({"fill-opacity":0})
+		this.textpath.animate(10000).attr({"fill-opacity":1})
+		
+	}
+
 	this.clear = function(){
-		console.log('clearing')
-		console.log(this.path.id())
-		this_ = $(`#${this.path.id()}`).animate({stroke:"rgba(0,0,0,0)"}, Math.random()*5000)
+		$(`#${this.path.id()}`).animate({stroke:"rgba(0,0,0,0)"}, Math.random()*5000)
+		this.textpath.animate(2000).attr({"fill-opacity":0})
+		this.textpath.clear()
 	}
 
 
@@ -100,6 +111,8 @@ function vertwiggle(iterations, color, draw, durations){
 function random_choice(items){
 	return items[Math.floor(Math.random()*items.length)] 
 }
+
+
 
 
 function draw_nicewigs(layers, colors, durations){
@@ -112,20 +125,25 @@ function draw_nicewigs(layers, colors, durations){
 
 }
 
-function wiggle_manager(colors,durations, iterations){
-	this.draw = SVG().addTo('body').size(window.innerWidth/4, window.innerHeight)
+function wiggle_manager(colors,durations, iterations,beads){
+	this.beads = beads
+	this.draw = SVG().addTo('body').size(window.innerWidth/5, window.innerHeight)
 	this.wiggles = []
 
 	this.colors = colors
 	this.durations = durations
 
 	this.add_wiggle = function(){
-		this.wiggles.push(new vertwiggle(random_choice(iterations), random_choice(this.colors), this.draw, this.durations))
+		console.log("adding..")
+		this.wiggles.push(new vertwiggle(random_choice(iterations), random_choice(this.colors), this.draw, this.durations, random_choice(this.beads)))
 	}
 
 	this.remove_wiggle = function(){
 		wig = this.wiggles.shift()
 		wig.clear()
+		setTimeout(function(wig){
+			return
+		},5000)
 	}
 
 
@@ -139,29 +157,36 @@ SVG.on(document, 'DOMContentLoaded', function() {
 	var durations = [3000,4000,5000,6000,3500,4050,4800]
 	var long_durs = [10000,20000,15000,25000,50000,100000]
 	var short_durs = [100,200,400,1000,2000,500,50]
-	var wide_durs = [400,1000,2000,500,3000,4000,5000,6000,10000]
+	var wide_durs = [1000,2000,5000,3000,4000,5000,6000,10000]
 	
 	var iterations = [4,5,6,7,8,9,10]
 
 	draw_nicewigs(3, colors, durations)
-	draw_nicewigs(8, ["white"], durations)
-	draw_nicewigs(8, ["white", "black", "red"], long_durs)
+	draw_nicewigs(3, ["white"], durations)
+	draw_nicewigs(4, ["white", "black", "red"], long_durs)
 
-	manager = new wiggle_manager(colors, wide_durs, iterations)
+	beads = ["✾","✻","❇","✶","✵","၀","๏","၀","๏"]
+
+	manager = new wiggle_manager(colors, wide_durs, iterations, beads)
 	manager.add_wiggle()
 	manager.add_wiggle()
 	manager.add_wiggle()
 	manager.add_wiggle()
-	manager.add_wiggle()
-	steps = 0
+
+
+
+	beads2 = ["✾","✻","❇","✶","✵","၀","๏","၀๏","๏๏","✶✶","✶✶✶✶","✶❇✶", "", "", "", ""]
+	manager2 = new wiggle_manager(["black", "white", "red", "blue", "red", "green"], long_durs, iterations, beads2)
+	manager2.add_wiggle()
+	manager2.add_wiggle()
+	manager2.add_wiggle()
+	manager2.add_wiggle()
 	setInterval(function(){
-		if(steps<100){
-			console.log("step")
-			manager.remove_wiggle()
-			manager.add_wiggle()
-			steps += 1
-		}
-	},10000)	
+
+			manager2.remove_wiggle()
+			manager2.add_wiggle()
+	
+	},5000)	
 
 
 
