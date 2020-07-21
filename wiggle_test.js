@@ -167,9 +167,7 @@ function draw_randWiggles_multiframe(its, distance, layers, colors, durations){
 		wig.tl.on("finished", function(){this.reverse().play()})
 
  	})
-
 }
-
 
 function draw_nicewigs(layers, colors, durations){
 	var draw = SVG().addTo('body').size(window.innerWidth,300)
@@ -199,5 +197,6 @@ SVG.on(document, 'DOMContentLoaded', function() {
 	draw_nicewigs(8, ["white","black"], long_durs)
 	draw_nicewigs(10, colors, durations)
 	draw_nicewigs(10, colors, short_durs)
+	draw_nicewigs(60, colors, durations)
 
 })
