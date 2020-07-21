@@ -8,6 +8,21 @@ body{
 
 svg{
 	display:block;
-	float:right;
-	white-space:pre;
+	position:fixed;
+	right:0;
+	top:0;
+	white-space:pre-wrap;
+}
+
+.buttons{
+	margin-top:10px;
+	margin-left:10px;
+}
+
+text{
+	white-space: pre;
+}
+
+.lorem{
+	font-size:1.5em;	
 }
